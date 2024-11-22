@@ -3,10 +3,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from tkinter import Tk, Button, Label, filedialog, Toplevel, Text, Scrollbar, VERTICAL, RIGHT, Y, END
 
-# Configurar estilo para gráficos
 sns.set(style="whitegrid")
 
-# Función para cargar el archivo CSV
 def cargar_csv():
     global df
     filepath = filedialog.askopenfilename(filetypes=[("Archivos CSV", "*.csv")])
@@ -17,16 +15,12 @@ def cargar_csv():
         btn_clasificacion["state"] = "normal"
         btn_graficos["state"] = "normal"
 
-# Mostrar estadísticas descriptivas generales
 def mostrar_estadisticas():
     if df is not None:
         top = Toplevel(root)
         top.title("Estadísticas Descriptivas")
+        estadisticas = df.describe().transpose()
 
-        
-        estadisticas = df.describe().transpose()  
-
-        # Generar descripciones dinámicas basadas en las columnas del resumen
         metricas_descripcion = {
             "count": "Cantidad de valores",
             "mean": "Promedio de los valores",
@@ -38,12 +32,10 @@ def mostrar_estadisticas():
             "max": "Valor más alto registrado",
         }
 
-        # Crear ventana con cuadro de texto
         text = Text(top, wrap="word", font=("Arial", 10))
         scrollbar = Scrollbar(top, orient=VERTICAL, command=text.yview)
         text.configure(yscrollcommand=scrollbar.set)
 
-        # Mostrar cada columna con sus estadísticas
         for columna in estadisticas.index:
             text.insert(END, f"\n\n--- {columna} ---\n")
             for metric, value in estadisticas.loc[columna].items():
@@ -53,9 +45,6 @@ def mostrar_estadisticas():
         text.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill=Y)
 
-
-
-# Clasificar y mostrar datos por país
 def clasificar_por_pais():
     if df is not None:
         top = Toplevel(root)
@@ -68,7 +57,6 @@ def clasificar_por_pais():
         text.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill=Y)
 
-# Generar gráficos exploratorios
 def generar_graficos():
     if df is not None:
         plt.figure(figsize=(12, 6))
@@ -77,27 +65,22 @@ def generar_graficos():
         plt.xticks(rotation=45)
         plt.show()
 
-       
         plt.figure(figsize=(12, 6))
         sns.barplot(data=df, x="País", y="Eventos Climáticos Extremos (Frecuencia)", ci=None)
         plt.title("Frecuencia de Eventos Climáticos Extremos por País")
         plt.xticks(rotation=45)
         plt.show()
 
-# Configuración de la ventana principal
 root = Tk()
 root.title("Análisis Exploratorio de Datos")
 root.geometry("600x400")
 
-# Etiqueta para mostrar información del archivo cargado
 label_info = Label(root, text="Cargue un archivo CSV para comenzar.", font=("Arial", 12))
 label_info.pack(pady=10)
 
-# Botón para cargar archivo
 btn_cargar = Button(root, text="Cargar CSV", command=cargar_csv, font=("Arial", 12))
 btn_cargar.pack(pady=5)
 
-# Botones de análisis (deshabilitados inicialmente)
 btn_estadisticas = Button(root, text="Mostrar Estadísticas", state="disabled", command=mostrar_estadisticas, font=("Arial", 12))
 btn_estadisticas.pack(pady=5)
 
@@ -107,5 +90,4 @@ btn_clasificacion.pack(pady=5)
 btn_graficos = Button(root, text="Generar Gráficos", state="disabled", command=generar_graficos, font=("Arial", 12))
 btn_graficos.pack(pady=5)
 
-# Ejecutar la interfaz gráfica
 root.mainloop()
