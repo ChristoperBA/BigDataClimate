@@ -4,4 +4,4 @@ Este proyecto es una aplicación de escritorio desarrollada en **Python** utiliz
 
 El propósito principal es proporcionar herramientas interactivas para analizar y manipular datos almacenados en archivos **CSV**. Está diseñado para ser una solución sencilla y efectiva para la exploración y limpieza de datos, facilitando tareas básicas de análisis sin requerir conocimientos avanzados de programación.
 
-![Readme](readme.png "ReadME")
+![Readme](proyecto/readme.png "ReadME")
